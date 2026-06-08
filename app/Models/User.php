@@ -15,6 +15,7 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
+        'is_admin', // Tambahkan ini
     ];
 
     protected $hidden = [
@@ -24,9 +25,9 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_admin' => 'boolean', // Cast ke boolean
     ];
 
-    // Relasi ke cart
     public function carts()
     {
         return $this->hasMany(Cart::class);

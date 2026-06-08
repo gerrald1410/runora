@@ -10,14 +10,22 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'category', 'category_name', 'description', 
-        'price', 'image_url', 'sizes', 'is_featured'
+        'name', 
+        'category', 
+        'category_name', 
+        'description', 
+        'price', 
+        'stock',
+        'image_url', 
+        'sizes', 
+        'is_featured'
     ];
 
     protected $casts = [
         'sizes' => 'array',
         'price' => 'decimal:2',
         'is_featured' => 'boolean',
+        'stock' => 'integer',
     ];
 
     public function carts()
