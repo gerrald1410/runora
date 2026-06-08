@@ -14,10 +14,10 @@ class Product extends Model
     protected $fillable = [
         'nama',   
         'kategori', 
-        'category_name', 
         'deskripsi', 
         'harga',         
-        'stok',          
+        'stok',
+        'diskon',          
         'gambar',       
         'ukuran', 
         'is_featured',
