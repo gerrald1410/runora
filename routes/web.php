@@ -49,7 +49,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 });
 
 //5. 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/produk/tambah', [ProductController::class, 'create'])->name('produk.create');
-    Route::post('/produk/tambah', [ProductController::class, 'store'])->name('produk.store');
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/produk/tambah', [AdminProductController::class, 'create'])->name('produk.create');
+    Route::post('/produk/tambah', [AdminProductController::class, 'store'])->name('produk.store');
+    Route::get('/produk', function() { return 'Halaman Daftar Produk'; })->name('produk.index');
 });
