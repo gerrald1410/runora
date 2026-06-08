@@ -47,3 +47,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('products', AdminProductController::class);
     
 });
+
+//5. 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/produk/tambah', [ProductController::class, 'create'])->name('produk.create');
+    Route::post('/produk/tambah', [ProductController::class, 'store'])->name('produk.store');
+});
