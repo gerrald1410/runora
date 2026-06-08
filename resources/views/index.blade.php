@@ -18,7 +18,7 @@
                     <div class="hero-content">
                         <h1 class="animate__animated animate__fadeInUp">Call me kalcer runner</h1>
                         <p class="lead">It's okay, the snail pace, the important thing is my style is perfect</p>
-                        <a href="{{ url('/shop') }}" class="btn btn-danger btn-lg px-5 py-3 rounded-pill">Shop Now →</a>
+                        <a href="{{ url('/Keranjang') }}" class="btn btn-danger btn-lg px-5 py-3 rounded-pill">Belanja Sekarang →</a>
                     </div>
                 </div>
             </div>
