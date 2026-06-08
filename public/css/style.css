@@ -1,0 +1,650 @@
+/* ========================================
+   RUNORA CUSTOM STYLES - NORMAL SIZE
+   ======================================== */
+
+/* ---------- VARIABLES ---------- */
+:root {
+    --red: #e11d2c;
+    --red-dark: #b91c2c;
+    --black: #1e1e1e;
+    --white: #ffffff;
+    --gray: #f8f9fa;
+    --gray-dark: #e9ecef;
+    --text: #212529;
+    --text-light: #6c757d;
+    --bg-card: #ffffff;
+    --bg-navbar: #ffffff;
+    --bg-footer: #1a1a2e;
+    --border: #dee2e6;
+    --shadow: rgba(0,0,0,0.05);
+}
+
+body.dark-mode {
+    --red: #e11d2c;
+    --red-dark: #ff4455;
+    --black: #f8f9fa;
+    --white: #1a1a2e;
+    --gray: #16213e;
+    --gray-dark: #2c2c3a;
+    --text: #f0f0f0;
+    --text-light: #b0b0b0;
+    --bg-card: #1e1e2e;
+    --bg-navbar: #0f0f1a;
+    --bg-footer: #0a0a0f;
+    --border: #2c2c3a;
+    --shadow: rgba(0,0,0,0.3);
+}
+
+/* ---------- GLOBAL ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--gray);
+    color: var(--text);
+    transition: all 0.3s ease;
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ---------- NAVBAR ---------- */
+.navbar {
+    background-color: var(--bg-navbar) !important;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 8px var(--shadow);
+    padding: 0.8rem 0;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-decoration: none;
+}
+
+.logo-text {
+    color: var(--black);
+}
+
+body.dark-mode .logo-text {
+    color: white;
+}
+
+.nav-link {
+    color: var(--text) !important;
+    font-weight: 500;
+    transition: color 0.2s;
+    font-size: 0.95rem;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--red) !important;
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -12px;
+    background-color: var(--red);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 30px;
+}
+
+/* ---------- THEME TOGGLE ---------- */
+.theme-toggle {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 0.25rem 0.7rem;
+    cursor: pointer;
+    color: var(--text);
+    transition: all 0.2s;
+    font-size: 0.85rem;
+}
+
+.theme-toggle:hover {
+    background: var(--red);
+    color: white;
+    border-color: var(--red);
+}
+
+/* ========== HERO CAROUSEL - UKURAN NORMAL ========== */
+#heroCarousel {
+    height: 60vh;
+    min-height: 450px;
+}
+
+.carousel-item {
+    height: 60vh;
+    min-height: 450px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.carousel-caption {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: left;
+    padding: 0 10%;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hero-content {
+    max-width: 550px;
+}
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.8rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-content .lead {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+    opacity: 0.6;
+}
+
+.carousel-indicators button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 0 5px;
+}
+
+.carousel-indicators button.active {
+    background-color: var(--red);
+}
+
+@media (max-width: 768px) {
+    #heroCarousel, .carousel-item {
+        height: 50vh;
+        min-height: 350px;
+    }
+    .hero-content h1 {
+        font-size: 1.8rem;
+    }
+    .hero-content .lead {
+        font-size: 0.85rem;
+    }
+    .carousel-caption {
+        padding: 0 5%;
+    }
+}
+
+/* ---------- SECTION TITLE ---------- */
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    border-left: 4px solid var(--red);
+    padding-left: 0.8rem;
+    margin-bottom: 1.2rem;
+    color: var(--text);
+}
+
+.section-title.text-center {
+    border-left: none;
+    border-bottom: 3px solid var(--red);
+    display: inline-block;
+    padding-bottom: 0.4rem;
+}
+
+/* ---------- CATEGORY CARD ---------- */
+.category-card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid var(--border);
+    padding: 1.5rem !important;
+}
+
+.category-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px var(--shadow);
+}
+
+.category-icon-wrapper {
+    width: 65px;
+    height: 65px;
+    background: rgba(225, 29, 44, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.8rem;
+}
+
+.category-icon-wrapper i {
+    font-size: 2rem;
+}
+
+.category-card h4 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.category-card p {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+}
+
+/* ---------- PRODUCT CARD ---------- */
+.product-card {
+    background: var(--bg-card);
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid var(--border);
+    height: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px var(--shadow);
+}
+
+.product-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.product-info {
+    padding: 0.8rem;
+}
+
+.product-info .badge {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+}
+
+.product-info h6 {
+    font-size: 0.9rem;
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.3rem;
+}
+
+.product-info p {
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+/* ---------- TESTIMONIAL CARD ---------- */
+.testimonial-card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    transition: transform 0.2s;
+    padding: 1.2rem !important;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-3px);
+}
+
+.testimonial-card i {
+    font-size: 1.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.testimonial-card p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 0.8rem;
+}
+
+.testimonial-card h6 {
+    font-size: 0.85rem;
+}
+
+/* ---------- NEWSLETTER CARD ---------- */
+.newsletter-card {
+    background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
+    color: white;
+    padding: 2rem !important;
+}
+
+.newsletter-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.newsletter-card p {
+    font-size: 0.85rem;
+    margin-bottom: 1.2rem;
+}
+
+.newsletter-card .form-control {
+    border: none;
+    padding: 10px 18px;
+    border-radius: 50px 0 0 50px;
+    font-size: 0.85rem;
+}
+
+.newsletter-card .input-group {
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    border-radius: 50px;
+}
+
+.newsletter-card .btn-danger {
+    background: var(--black);
+    border-color: var(--black);
+    border-radius: 0 50px 50px 0;
+    padding: 10px 20px;
+    font-size: 0.85rem;
+}
+
+/* ---------- FOOTER ---------- */
+.footer {
+    background: var(--bg-footer);
+    color: var(--text-light);
+    padding: 2rem 0 1rem;
+    margin-top: 2rem;
+}
+
+.footer h5, .footer h6 {
+    color: var(--text);
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+}
+
+.footer a {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color 0.2s;
+    font-size: 0.85rem;
+}
+
+.footer a:hover {
+    color: var(--red);
+}
+
+.footer ul {
+    padding-left: 0;
+}
+
+.footer ul li {
+    margin-bottom: 0.4rem;
+}
+
+.social-icons a {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    text-align: center;
+    line-height: 32px;
+    margin-right: 6px;
+    transition: all 0.2s;
+    color: white;
+    font-size: 0.85rem;
+}
+
+.social-icons a:hover {
+    background: var(--red);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.footer hr {
+    border-color: rgba(255,255,255,0.1);
+    margin: 1rem 0;
+}
+
+.footer p {
+    font-size: 0.8rem;
+}
+
+/* ---------- FILTER BUTTONS ---------- */
+.btn-filter {
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 0.4rem 1rem;
+    border-radius: 30px;
+    color: var(--text);
+    transition: all 0.2s;
+    font-size: 0.85rem;
+}
+
+.btn-filter:hover,
+.btn-filter.active {
+    background: var(--red);
+    color: white;
+    border-color: var(--red);
+}
+
+/* ---------- SIZE BUTTONS ---------- */
+.btn-size {
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    background: var(--bg-card);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.85rem;
+}
+
+.btn-size:hover,
+.btn-size.active {
+    background: var(--red);
+    color: white;
+    border-color: var(--red);
+}
+
+/* ---------- CART ITEM ---------- */
+.cart-item {
+    background: var(--bg-card);
+}
+
+/* ---------- BUTTON STYLES ---------- */
+.btn-danger {
+    background-color: var(--red);
+    border-color: var(--red);
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    padding: 0.4rem 1rem;
+}
+
+.btn-danger:hover {
+    background-color: var(--red-dark);
+    border-color: var(--red-dark);
+    transform: translateY(-1px);
+}
+
+.btn-outline-danger {
+    border-color: var(--red);
+    color: var(--red);
+    font-size: 0.85rem;
+    padding: 0.35rem 0.9rem;
+}
+
+.btn-outline-danger:hover {
+    background-color: var(--red);
+    border-color: var(--red);
+    color: white;
+}
+
+.btn-lg {
+    padding: 0.6rem 1.5rem !important;
+    font-size: 1rem !important;
+}
+
+/* ---------- FORM STYLES ---------- */
+.form-label {
+    color: var(--text);
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 0.85rem;
+}
+
+.form-control {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+}
+
+.form-control:focus {
+    background-color: var(--bg-card);
+    color: var(--text);
+    border-color: var(--red);
+    box-shadow: 0 0 0 0.2rem rgba(225, 29, 44, 0.25);
+}
+
+/* ---------- CARD STYLES ---------- */
+.card {
+    background-color: var(--bg-card);
+    border-color: var(--border);
+    border-radius: 14px;
+}
+
+/* ---------- UTILITIES ---------- */
+.bg-light {
+    background-color: var(--gray-dark) !important;
+}
+
+.text-muted {
+    color: var(--text-light) !important;
+}
+
+.rounded-4 {
+    border-radius: 1rem !important;
+}
+
+.rounded-pill {
+    border-radius: 50px !important;
+}
+
+/* ---------- ANIMATIONS ---------- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate__fadeInUp {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.animate__delay-1s {
+    animation-delay: 0.2s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.animate__delay-2s {
+    animation-delay: 0.4s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0.6rem 0;
+    }
+    
+    .logo {
+        font-size: 1.3rem;
+    }
+    
+    .section-title {
+        font-size: 1.3rem;
+    }
+    
+    .category-card {
+        padding: 1rem !important;
+    }
+    
+    .category-card h4 {
+        font-size: 1rem;
+    }
+    
+    .product-img {
+        height: 150px;
+    }
+    
+    .footer {
+        text-align: center;
+    }
+    
+    .social-icons {
+        justify-content: center;
+        display: flex;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-content h1 {
+        font-size: 1.5rem;
+    }
+    
+    .product-img {
+        height: 140px;
+    }
+    
+    .newsletter-card {
+        padding: 1.2rem !important;
+    }
+    
+    .newsletter-card .input-group {
+        flex-direction: column;
+    }
+    
+    .newsletter-card .form-control {
+        border-radius: 50px;
+        margin-bottom: 8px;
+    }
+    
+    .newsletter-card .btn-danger {
+        border-radius: 50px;
+        width: 100%;
+    }
+}
+
+/* ---------- SCROLLBAR STYLING ---------- */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--gray-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--red);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--red-dark);
+}
