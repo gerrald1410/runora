@@ -13,6 +13,16 @@
                         <p class="text-muted">Masuk ke akun Anda</p>
                     </div>
                     
+                    <!-- Alert untuk notifikasi dari register -->
+                    @if(session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                    @endif
+                    
+                    <div id="alertMessage" class="alert d-none" role="alert"></div>
+                    
                     <form id="loginForm">
                         @csrf
                         <div class="mb-3">
@@ -23,7 +33,7 @@
                             <label class="form-label fw-semibold">Password</label>
                             <input type="password" class="form-control" id="loginPassword" placeholder="Masukkan password" required>
                         </div>
-                        <button type="submit" class="btn btn-danger w-100 py-2">
+                        <button type="submit" class="btn btn-danger w-100 py-2" id="loginBtn">
                             <i class="fas fa-sign-in-alt me-2"></i>Masuk
                         </button>
                     </form>
@@ -43,25 +53,57 @@
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         
-        const response = await fetch('{{ route("login") }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({
-                email: document.getElementById('loginEmail').value,
-                password: document.getElementById('loginPassword').value
-            })
-        });
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
         
-        const data = await response.json();
+        const formData = new FormData();
+        formData.append('email', email);
+        formData.append('password', password);
         
-        if (data.success) {
-            window.location.href = data.redirect;
-        } else {
-            alert('Login gagal! Periksa email dan password Anda.');
+        const loginBtn = document.getElementById('loginBtn');
+        const originalText = loginBtn.innerHTML;
+        loginBtn.disabled = true;
+        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Memproses...';
+        
+        try {
+            const response = await fetch('{{ route("login") }}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                window.location.href = data.redirect;
+            } else {
+                showAlert(data.message || 'Login gagal! Periksa email dan password Anda.', 'danger');
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = originalText;
+            }
+        } catch (error) {
+            showAlert('Terjadi kesalahan. Silakan coba lagi.', 'danger');
+            loginBtn.disabled = false;
+            loginBtn.innerHTML = originalText;
         }
     });
+    
+    function showAlert(message, type) {
+        const alertDiv = document.getElementById('alertMessage');
+        alertDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show`;
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        alertDiv.classList.remove('d-none');
+        
+        setTimeout(() => {
+            alertDiv.classList.add('d-none');
+        }, 5000);
+    }
 </script>
 @endpush

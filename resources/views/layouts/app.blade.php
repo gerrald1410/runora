@@ -18,9 +18,9 @@
 <body>
 
     <!-- ========== NAVBAR ========== -->
-    <nav class="navbar navbar-expand-lg sticky-top">
+    <nav class="navbar navbar-expand-lg sticky-top bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand logo" href="{{ url('/') }}">
+            <a class="navbar-brand logo fw-bold fs-3" href="{{ url('/') }}">
                 <span class="text-danger">RUN</span><span>ORA</span>
             </a>
             
@@ -38,28 +38,35 @@
                     </li>
                     <li class="nav-item position-relative">
                         <a class="nav-link" href="{{ url('/cart') }}">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-count" id="cartCount">0</span>
+                            <i class="fas fa-shopping-cart fa-lg"></i>
+                            <span class="cart-count badge bg-danger rounded-pill" id="cartCount" style="position: absolute; top: 0; right: -10px;">0</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <button class="theme-toggle" id="themeToggleBtn">
-                            <i class="fas fa-moon"></i>
-                            <span id="themeText">Gelap</span>
-                        </button>
-                    </li>
+                    
                     @auth
-                        <li class="nav-item" id="userInfoArea">
-                            <span class="me-2 fw-semibold">{{ Auth::user()->name }}</span>
-                            <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                                @csrf
-                                <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
-                            </form>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle fa-lg"></i>
+                                <span>{{ Auth::user()->name }}</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profil</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-shopping-bag me-2"></i> Pesanan</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item">
+                                            <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
                         </li>
                     @else
-                        <li class="nav-item" id="authButtons">
-                            <a href="{{ route('login') }}" class="btn btn-outline-danger btn-sm">Masuk</a>
-                            <a href="{{ route('register') }}" class="btn btn-danger btn-sm ms-2">Daftar</a>
+                        <li class="nav-item">
+                            <a href="{{ route('login') }}" class="btn btn-outline-danger btn-sm px-3">Masuk</a>
+                            <a href="{{ route('register') }}" class="btn btn-danger btn-sm ms-2 px-3">Daftar</a>
                         </li>
                     @endauth
                 </ul>
@@ -73,7 +80,7 @@
     </main>
 
     <!-- ========== FOOTER ========== -->
-    <footer class="footer">
+    <footer class="footer bg-dark text-white mt-5 py-4">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 mb-4">
@@ -83,32 +90,32 @@
                 <div class="col-md-2 mb-4">
                     <h6>Menu</h6>
                     <ul class="list-unstyled">
-                        <li><a href="{{ url('/') }}">Beranda</a></li>
-                        <li><a href="{{ url('/shop') }}">Shop</a></li>
-                        <li><a href="{{ url('/cart') }}">Keranjang</a></li>
+                        <li><a href="{{ url('/') }}" class="text-muted text-decoration-none">Beranda</a></li>
+                        <li><a href="{{ url('/shop') }}" class="text-muted text-decoration-none">Shop</a></li>
+                        <li><a href="{{ url('/cart') }}" class="text-muted text-decoration-none">Keranjang</a></li>
                     </ul>
                 </div>
                 <div class="col-md-3 mb-4">
                     <h6>Kategori</h6>
                     <ul class="list-unstyled">
-                        <li><a href="{{ url('/shop?cat=running') }}">Running Shoes</a></li>
-                        <li><a href="{{ url('/shop?cat=trail') }}">Trail Run</a></li>
-                        <li><a href="{{ url('/shop?cat=apparel') }}">Apparel</a></li>
+                        <li><a href="{{ url('/shop?cat=running') }}" class="text-muted text-decoration-none">Running Shoes</a></li>
+                        <li><a href="{{ url('/shop?cat=trail') }}" class="text-muted text-decoration-none">Trail Run</a></li>
+                        <li><a href="{{ url('/shop?cat=apparel') }}" class="text-muted text-decoration-none">Apparel</a></li>
                     </ul>
                 </div>
                 <div class="col-md-3 mb-4">
                     <h6>Follow Us</h6>
                     <div class="social-icons">
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="text-muted me-3"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" class="text-muted me-3"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" class="text-muted me-3"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-muted"><i class="fab fa-youtube fa-lg"></i></a>
                     </div>
                 </div>
             </div>
-            <hr class="mt-3">
+            <hr class="mt-3 bg-secondary">
             <div class="text-center">
-                <p class="mb-0">© 2025 RUNORA — Red. White. Black. Run with spirit.</p>
+                <p class="mb-0 text-muted">© 2025 RUNORA — Red. White. Black. Run with spirit.</p>
             </div>
         </div>
     </footer>
@@ -123,8 +130,9 @@
                 .then(res => res.json())
                 .then(data => {
                     const cartCount = document.getElementById('cartCount');
-                    if (cartCount) cartCount.innerText = data.count;
-                });
+                    if (cartCount) cartCount.innerText = data.count || 0;
+                })
+                .catch(err => console.log('Cart count error:', err));
         }
         
         document.addEventListener('DOMContentLoaded', updateCartCount);

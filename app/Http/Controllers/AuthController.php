@@ -9,51 +9,85 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function login()
+    // Tampilkan halaman login
+    public function showLogin()
     {
         return view('login');
     }
-    
-    public function doLogin(Request $request)
+
+    // Proses login
+    public function login(Request $request)
     {
-        $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
         ]);
-        
-        if (Auth::attempt($request->only('email', 'password'), $request->remember)) {
-            return response()->json(['success' => true, 'redirect' => url('/')]);
+
+        if (Auth::attempt($credentials, $request->remember)) {
+            $request->session()->regenerate();
+            
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true, 
+                    'message' => 'Login berhasil!',
+                    'redirect' => url('/')
+                ]);
+            }
+            
+            return redirect()->intended('/');
         }
-        
-        return response()->json(['success' => false, 'message' => 'Email atau password salah'], 401);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => false, 
+                'message' => 'Email atau password salah'
+            ], 401);
+        }
+
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ]);
     }
-    
-    public function register()
+
+    // Tampilkan halaman register
+    public function showRegister()
     {
         return view('register');
     }
-    
-    public function doRegister(Request $request)
+
+    // Proses register
+    public function register(Request $request)
     {
+        // Validasi input
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
-            'phone' => 'nullable|string'
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
+            'phone' => 'nullable|string|max:15',
         ]);
-        
+
+        // Buat user baru
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'phone' => $request->phone
+            'phone' => $request->phone,
         ]);
-        
-        Auth::login($user);
-        
-        return response()->json(['success' => true, 'redirect' => url('/')]);
+
+        // Response untuk AJAX request
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Registrasi berhasil! Silakan login.',
+                'redirect' => route('login')
+            ]);
+        }
+
+        // Untuk non-AJAX request
+        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
     }
-    
+
+    // Proses logout
     public function logout(Request $request)
     {
         Auth::logout();
@@ -62,8 +96,9 @@ class AuthController extends Controller
         
         return redirect('/');
     }
-    
-    public function user()
+
+    // Cek user login
+    public function checkUser()
     {
         if (Auth::check()) {
             return response()->json([
