@@ -13,7 +13,6 @@
                         <p class="text-muted">Masuk ke akun Anda</p>
                     </div>
                     
-                    <!-- Alert untuk notifikasi dari register -->
                     @if(session('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         {{ session('success') }}

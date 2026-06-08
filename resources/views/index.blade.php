@@ -63,7 +63,7 @@
 
     <!-- Produk Terlaris -->
     <section class="container py-5">
-        <h2 class="section-title">🔥 Produk Terlaris</h2>
+        <h2 class="section-title">Produk Terlaris</h2>
         <div class="row g-4 mt-2" id="featuredProducts">
             @foreach($featuredProducts as $product)
             <div class="col-md-3">
