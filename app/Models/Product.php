@@ -9,6 +9,8 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $table = 'products'; 
+
     protected $fillable = [
         'name',
         'category',
@@ -24,13 +26,20 @@ class Product extends Model
 
     protected $casts = [
         'sizes' => 'array',
-        'price' => 'decimal:2',
+        'harga' => 'decimal:2',
         'is_featured' => 'boolean',
-        'stock' => 'integer',
+        'stok' => 'integer',
     ];
 
+    // 4. Relasi ke Cart (Sudah benar)
     public function carts()
     {
         return $this->hasMany(Cart::class);
+    }
+
+    // 5. Tambahkan relasi ke OrderItem (karena di controller kamu melakukan join/query ke OrderItem)
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class, 'product_id');
     }
 }
