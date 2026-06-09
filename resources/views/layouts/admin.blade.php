@@ -14,6 +14,10 @@
 </head>
 <body class="bg-gray-100 flex h-screen overflow-hidden">
 
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+        @csrf
+    </form>
+
     <div class="w-20 bg-[#C81010] flex flex-col items-center py-6 h-screen justify-between flex-shrink-0 z-10 shadow-xl">
         
         <div class="flex flex-col items-center w-full gap-6">
@@ -54,7 +58,10 @@
 
         <div class="w-full flex justify-center pb-2">
             <div class="relative group flex items-center justify-center w-full">
-                <a href="#" class="w-12 h-12 bg-white rounded-xl shadow-lg flex items-center justify-center hover:bg-red-50 transition-all duration-200 active:scale-90">
+                {{-- Mencegah link lompat, lalu menembak id form di atas --}}
+                <a href="#" 
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                   class="w-12 h-12 bg-white rounded-xl shadow-lg flex items-center justify-center hover:bg-red-50 transition-all duration-200 active:scale-90">
                     <i class="fas fa-sign-out-alt text-red-600 text-lg"></i>
                 </a>
                 <span class="absolute left-16 ml-2 px-3 py-1 bg-black text-white text-xs rounded-md invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-300 whitespace-nowrap shadow-xl z-50">Keluar</span>

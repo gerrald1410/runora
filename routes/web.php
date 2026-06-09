@@ -53,31 +53,27 @@ Route::middleware(['auth', 'role:pembeli'])->group(function () {
 |--------------------------------------------------------------------------
 | 4. OFFICIAL ADMIN ROUTES (Wajib Login & Memiliki Role Admin)
 |--------------------------------------------------------------------------
+| Semua halaman di dalam grup ini otomatis aman. Sekali login sebagai admin, 
+| kamu bisa bebas berpindah halaman tanpa diminta login lagi.
 */
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    // Dashboard Utama Admin
+    
+    // Dashboard Utama Admin (Akses: /admin/dashboard)
     Route::get('/dashboard', [AdminDashboard::class, 'index'])->name('dashboard');
     
-    // CRUD Utama Produk Admin (Menggunakan rute manual agar nama url sinkron dengan file Blade)
+    // Tabel Daftar Produk (Akses: /admin/produk)
     Route::get('/produk', [AdminProductController::class, 'index'])->name('produk.index');
+    
+    // Form Tambah Produk Baru (Akses: /admin/produk/tambah)
     Route::get('/produk/tambah', [AdminProductController::class, 'create'])->name('produk.create');
     Route::post('/produk/tambah', [AdminProductController::class, 'store'])->name('produk.store');
+    
+    // Form Edit Produk (Akses: /admin/produk/edit/{id})
     Route::get('/produk/edit/{id}', [AdminProductController::class, 'edit'])->name('produk.edit');
     
-    // ─── INI JALUR UPDATE YANG TADI HILANG ───
+    // Proses Update Data (Mesin Latar Belakang Form Edit)
     Route::put('/produk/update/{id}', [AdminProductController::class, 'update'])->name('produk.update');
     
-    // Jalur Hapus Produk
+    // Proses Hapus Produk (Aksi Tombol Trash)
     Route::delete('/produk/hapus/{id}', [AdminProductController::class, 'destroy'])->name('produk.destroy');
 });
-
-/*
-|--------------------------------------------------------------------------
-| 5. TEMPORARY ROUTES (Rute Sementara untuk Intip Tampilan Tanpa Login)
-|--------------------------------------------------------------------------
-*/
-Route::get('/intip-admin', [AdminDashboard::class, 'index']);
-Route::get('/intip-produk', [AdminProductController::class, 'index']);
-Route::get('/intip-tambah-produk', [AdminProductController::class, 'create']);
-
-Route::get('/intip-produk', [AdminProductController::class, 'index']);

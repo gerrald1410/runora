@@ -105,7 +105,6 @@ class ProductController extends Controller
             if ($product->gambar) {
                 Storage::disk('public')->delete('products/' . $product->gambar);
             }
-
             $file = $request->file('gambar');
             $path = $file->store('products', 'public'); 
             $namaGambar = basename($path);
