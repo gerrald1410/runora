@@ -27,6 +27,14 @@ class ShopController extends Controller
     public function detail($id)
     {
         $product = Product::findOrFail($id);
+        
+        // Decode sizes dari JSON ke array
+        if ($product->sizes) {
+            $product->sizes = is_array($product->sizes) ? $product->sizes : json_decode($product->sizes, true);
+        } else {
+            $product->sizes = [];
+        }
+        
         return view('detail', compact('product'));
     }
 }

@@ -13,11 +13,11 @@
     <div class="card shadow-sm border-0 rounded-4">
         <div class="card-header bg-white border-0 pt-4">
             <h3 class="fw-bold mb-0">
-                <i class="fas fa-edit text-danger me-2"></i>Edit Produk: {{ $product->name }}
+                <i class="fas fa-edit text-danger me-2"></i>Edit Produk
             </h3>
         </div>
         <div class="card-body p-4">
-            <form action="{{ route('admin.products.update', $product->id) }}" method="POST">
+            <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 
@@ -51,37 +51,61 @@
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-semibold">Harga (Rp) <span class="text-danger">*</span></label>
                         <input type="number" name="price" class="form-control @error('price') is-invalid @enderror" 
-                               value="{{ old('price', $product->price) }}" required>
+                               value="{{ old('price', $product->price) }}" required min="0">
                         @error('price')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                     
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-semibold">Stok <span class="text-danger">*</span></label>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label fw-semibold">Stok Produk <span class="text-danger">*</span></label>
                         <input type="number" name="stock" class="form-control @error('stock') is-invalid @enderror" 
-                               value="{{ old('stock', $product->stock) }}" required>
+                               value="{{ old('stock', $product->stock ?? 0) }}" required min="0">
+                        <small class="text-muted">Jumlah barang tersedia</small>
                         @error('stock')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                     
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-semibold">URL Gambar <span class="text-danger">*</span></label>
-                        <input type="url" name="image_url" class="form-control @error('image_url') is-invalid @enderror" 
-                               value="{{ old('image_url', $product->image_url) }}" required>
-                        <small class="text-muted">Masukkan URL gambar produk</small>
-                        @error('image_url')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label fw-semibold">Diskon (%)</label>
+                        <input type="number" name="discount" class="form-control @error('discount') is-invalid @enderror" 
+                               value="{{ old('discount', $product->discount ?? 0) }}" min="0" max="100">
+                        <small class="text-muted">Persentase diskon (0-100%)</small>
+                        @error('discount')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                     
                     <div class="col-md-12 mb-3">
-                        <label class="form-label fw-semibold">Ukuran yang Tersedia <span class="text-danger">*</span></label>
+                        <label class="form-label fw-semibold">Gambar Produk</label>
+                        @if($product->image_url && file_exists(public_path($product->image_url)))
+                            <div class="mb-2">
+                                <img src="{{ asset($product->image_url) }}" alt="{{ $product->name }}" style="max-width: 150px; height: auto; border-radius: 8px;">
+                                <small class="text-muted d-block">Gambar saat ini</small>
+                            </div>
+                        @endif
+                        <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" 
+                               accept="image/*">
+                        <small class="text-muted">Format: JPG, JPEG, PNG. Maksimal 2MB. Kosongkan jika tidak ingin mengganti gambar.</small>
+                        @error('image')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                    
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label fw-semibold">Ukuran</label>
                         <div class="row">
                             @php
-                                $currentSizes = is_array($product->sizes) ? $product->sizes : json_decode($product->sizes, true);
                                 $sizeOptions = ['38', '39', '40', '41', '42', '43', 'S', 'M', 'L', 'XL'];
+                                // Handle jika $product->sizes sudah array atau masih string JSON
+                                $currentSizes = [];
+                                if (!empty($product->sizes)) {
+                                    if (is_array($product->sizes)) {
+                                        $currentSizes = $product->sizes;
+                                    } else {
+                                        $currentSizes = json_decode($product->sizes, true) ?? [];
+                                    }
+                                }
+                                $oldSizes = old('sizes', $currentSizes);
                             @endphp
                             @foreach($sizeOptions as $size)
                             <div class="col-auto mb-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="sizes[]" value="{{ $size }}" 
-                                           id="size_{{ $size }}" {{ in_array($size, $currentSizes) ? 'checked' : '' }}>
+                                           id="size_{{ $size }}" {{ in_array($size, (array)$oldSizes) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="size_{{ $size }}">
                                         {{ $size }}
                                     </label>
@@ -89,6 +113,7 @@
                             </div>
                             @endforeach
                         </div>
+                        <small class="text-muted">Centang ukuran yang tersedia</small>
                         @error('sizes')<div class="text-danger small">{{ $message }}</div>@enderror
                     </div>
                     

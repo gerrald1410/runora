@@ -26,30 +26,60 @@ class CartController extends Controller
     
     public function add(Request $request)
     {
-        $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'size' => 'required|string',
-            'quantity' => 'integer|min:1'
-        ]);
+        $product = Product::findOrFail($request->product_id);
         
-        $cart = Cart::where('user_id', Auth::id())
-            ->where('product_id', $request->product_id)
-            ->where('size', $request->size)
-            ->first();
-        
-        if ($cart) {
-            $cart->quantity += $request->quantity ?? 1;
-            $cart->save();
-        } else {
-            Cart::create([
-                'user_id' => Auth::id(),
-                'product_id' => $request->product_id,
-                'size' => $request->size,
-                'quantity' => $request->quantity ?? 1
-            ]);
+        // Validasi stok
+        if ($product->stock <= 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Maaf, stok produk ini habis!'
+            ], 400);
         }
         
-        return response()->json(['success' => true, 'message' => 'Produk ditambahkan ke keranjang']);
+        $quantity = $request->quantity ?? 1;
+        
+        // Validasi quantity tidak melebihi stok
+        if ($quantity > $product->stock) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Jumlah melebihi stok yang tersedia (Stok: ' . $product->stock . ')'
+            ], 400);
+        }
+        
+        $cart = session()->get('cart', []);
+        
+        $size = $request->size;
+        $key = $product->id . '_' . $size;
+        
+        if (isset($cart[$key])) {
+            // Cek stok untuk penambahan quantity
+            $newQuantity = $cart[$key]['quantity'] + $quantity;
+            if ($newQuantity > $product->stock) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Jumlah total melebihi stok yang tersedia (Stok: ' . $product->stock . ')'
+                ], 400);
+            }
+            $cart[$key]['quantity'] = $newQuantity;
+        } else {
+            $cart[$key] = [
+                'product_id' => $product->id,
+                'name' => $product->name,
+                'price' => $product->price,
+                'discount' => $product->discount ?? 0,
+                'size' => $size,
+                'quantity' => $quantity,
+                'image' => $product->image_url,
+            ];
+        }
+        
+        session()->put('cart', $cart);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Produk berhasil ditambahkan ke keranjang!',
+            'cart_count' => array_sum(array_column($cart, 'quantity'))
+        ]);
     }
     
     public function update(Request $request, $id)

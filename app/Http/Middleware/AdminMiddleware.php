@@ -9,12 +9,10 @@ use Illuminate\Support\Facades\Auth;
 class AdminMiddleware
 {
     public function handle(Request $request, Closure $next)
-    {
-        // Cek jika user login dan emailnya admin
-        if (Auth::check() && Auth::user()->is_admin) {
-            return $next($request);
-        }
-        
-        abort(403, 'Unauthorized - Hanya untuk admin');
+{
+    if (Auth::check() && Auth::user()->role != 'admin') {
+        return redirect('/'); // atau abort(403)
     }
+    return $next($request);
+}
 }

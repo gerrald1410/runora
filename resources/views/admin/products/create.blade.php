@@ -17,7 +17,7 @@
             </h3>
         </div>
         <div class="card-body p-4">
-            <form action="{{ route('admin.products.store') }}" method="POST">
+            <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 
                 <div class="row">
@@ -50,27 +50,36 @@
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-semibold">Harga (Rp) <span class="text-danger">*</span></label>
                         <input type="number" name="price" class="form-control @error('price') is-invalid @enderror" 
-                               value="{{ old('price') }}" required placeholder="Contoh: 899000">
+                               value="{{ old('price') }}" required placeholder="Contoh: 899000" min="0">
                         @error('price')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                     
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-semibold">Stok <span class="text-danger">*</span></label>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label fw-semibold">Stok Produk <span class="text-danger">*</span></label>
                         <input type="number" name="stock" class="form-control @error('stock') is-invalid @enderror" 
-                               value="{{ old('stock', 0) }}" required placeholder="Jumlah stok">
+                               value="{{ old('stock', 0) }}" required min="0" placeholder="Jumlah stok">
+                        <small class="text-muted">Jumlah barang tersedia</small>
                         @error('stock')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                     
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-semibold">URL Gambar <span class="text-danger">*</span></label>
-                        <input type="url" name="image_url" class="form-control @error('image_url') is-invalid @enderror" 
-                               value="{{ old('image_url') }}" required placeholder="https://...">
-                        <small class="text-muted">Masukkan URL gambar produk (bisa dari Unsplash atau upload sendiri)</small>
-                        @error('image_url')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label fw-semibold">Diskon (%)</label>
+                        <input type="number" name="discount" class="form-control @error('discount') is-invalid @enderror" 
+                               value="{{ old('discount', 0) }}" min="0" max="100" placeholder="0-100%">
+                        <small class="text-muted">Persentase diskon (0-100%)</small>
+                        @error('discount')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                     
                     <div class="col-md-12 mb-3">
-                        <label class="form-label fw-semibold">Ukuran (38-43) <span class="text-danger">*</span></label>
+                        <label class="form-label fw-semibold">Gambar Produk <span class="text-danger">*</span></label>
+                        <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" 
+                               accept="image/*" required>
+                        <small class="text-muted">Format: JPG, JPEG, PNG. Maksimal 2MB</small>
+                        @error('image')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                    
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label fw-semibold">Ukuran</label>
                         <div class="row">
                             @php
                                 $sizeOptions = ['38', '39', '40', '41', '42', '43', 'S', 'M', 'L', 'XL'];
@@ -88,6 +97,7 @@
                             </div>
                             @endforeach
                         </div>
+                        <small class="text-muted">Centang ukuran yang tersedia</small>
                         @error('sizes')<div class="text-danger small">{{ $message }}</div>@enderror
                     </div>
                     

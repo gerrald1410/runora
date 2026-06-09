@@ -15,7 +15,7 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
-        'is_admin', // Tambahkan ini
+        'role',
     ];
 
     protected $hidden = [
@@ -25,7 +25,6 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'is_admin' => 'boolean', // Cast ke boolean
     ];
 
     public function carts()
